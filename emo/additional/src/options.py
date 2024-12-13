@@ -18,3 +18,8 @@ class DefaultArgs():
                 # "text_dir": 
             }
         }
+
+        self.max_epochs = 1 # change this according to training needs
+        self.alpha = 0.6
+        self.beta = 0.2 
+        self.gamma = 0.2
