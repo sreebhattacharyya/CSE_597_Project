@@ -36,14 +36,17 @@ def main():
 
     dataset = DataSetup(dataset_name, defaults_args)
     dataset_size = len(dataset)
-    train, val, test = random_split(dataset, [0.7*dataset_size, 0.1*dataset_size, 0.2*dataset_size])
+    train_size = int(0.7 * dataset_size)
+    test_size = int(0.2 * dataset_size)
+    val_size = dataset_size - (train_size + test_size)
+    train, val, test = random_split(dataset, [train_size, val_size, test_size])
 
     print("Dataset and dataloaders created...")
     print()
 
     trainloader = DataLoader(
         train,
-        batch_size=128,
+        batch_size=32,
         shuffle=True,
         num_workers=defaults_args.train_load_workers
     )
@@ -61,7 +64,7 @@ def main():
     )
 
     print("Creating model...")
-    model = RewardPunishModel()
+    model = RewardPunishModel(defaults_args.device, "blip", 8)
     print("Model created...")
     print()
 

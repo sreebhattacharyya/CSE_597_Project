@@ -17,7 +17,7 @@ class VLM(nn.Module):
         self.device = device
         if self.vlm_name == "blip":
             self.model, self.vis_processors, self.text_processors = load_model_and_preprocess(name="blip2_feature_extractor", model_type="pretrain", is_eval=True, device=device)
-        else:
+        # else:
             # read model from path
     
     def forward(self, raw_image, prompt):
@@ -81,8 +81,8 @@ class RewardPunishModel(nn.Module):
         super(RewardPunishModel, self).__init__()
         self.vlm = VLM(device, lm_name)
         
-        self.reward_embedding = nn.Parameters(torch.randn(768, 768), requires_grad=True)
-        self.punish_embedding = nn.Parameters(torch.randn(768, 768), requires_grad=True)
+        self.reward_embedding = nn.Parameter(torch.randn(768, 768), requires_grad=True)
+        self.punish_embedding = nn.Parameter(torch.randn(768, 768), requires_grad=True)
         
         self.reward_model = RewardModel(device, 768, 128)
         self.punish_model = PunishModel(device, 768, 128)
