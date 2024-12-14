@@ -17,6 +17,9 @@ class VLM(nn.Module):
         self.device = device
         if self.vlm_name == "blip":
             self.model, self.vis_processors, self.text_processors = load_model_and_preprocess(name="blip2_feature_extractor", model_type="pretrain", is_eval=True, device=device)
+        # else:
+            # self.model = torch.load("/work/hdd/bbmr/sbhattacharyya1/projects-src/EmoVIT/EmoVIT/LAVIS/model_weights1.pth")
+            # _, self.vis_processors, self.text_processors = load_model_and_preprocess(name="blip2_feature_extractor", model_type="pretrain", is_eval=True, device=device)
     
     def forward(self, raw_image, prompt):
         image = self.vis_processors["eval"](raw_image).unsqueeze(0).to(self.device)
