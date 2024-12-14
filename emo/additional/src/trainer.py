@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score, f1_score
 import time
 import json
 
-def Trainer(): 
+class Trainer: 
     def __init__(self, train_data, val_data, test_data, args, model, device):
         self.train_data = train_data
         self.test_data = test_data 
