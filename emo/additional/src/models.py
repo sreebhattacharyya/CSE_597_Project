@@ -17,8 +17,6 @@ class VLM(nn.Module):
         self.device = device
         if self.vlm_name == "blip":
             self.model, self.vis_processors, self.text_processors = load_model_and_preprocess(name="blip2_feature_extractor", model_type="pretrain", is_eval=True, device=device)
-        # else:
-            # read model from path
     
     def forward(self, raw_image, prompt):
         image = self.vis_processors["eval"](raw_image).unsqueeze(0).to(self.device)
@@ -30,15 +28,16 @@ class VLM(nn.Module):
 
 class RewardModel(nn.Module):
     def __init__(self, device, input_dim, output_dim): 
+        super(RewardModel, self).__init__()
         self.device = device
 
         self.layers = nn.Sequential(
             nn.Linear(input_dim, 512),
             nn.ReLU(),
-            nn.BatchNorm1D(512), 
+            nn.BatchNorm1d(512), 
             nn.Linear(512, 256),
             nn.ReLU(),
-            nn.BatchNorm1D(256),
+            nn.BatchNorm1d(256),
             nn.Dropout(p=0.5),
             nn.Linear(256, output_dim)
         )
@@ -54,15 +53,16 @@ class RewardModel(nn.Module):
 
 class PunishModel(nn.Module):
     def __init__(self, device, input_dim, output_dim): 
+        super(PunishModel, self).__init__()
         self.device = device
 
         self.layers = nn.Sequential(
             nn.Linear(input_dim, 512),
             nn.ReLU(),
-            nn.BatchNorm1D(512), 
+            nn.BatchNorm1d(512), 
             nn.Linear(512, 256),
             nn.ReLU(),
-            nn.BatchNorm1D(256),
+            nn.BatchNorm1d(256),
             nn.Dropout(p=0.5),
             nn.Linear(256, output_dim)
         )
@@ -112,10 +112,4 @@ class RewardPunishModel(nn.Module):
         final_pred = self.final(pooled_attn_output)
 
         return final_pred, reward_logit, punish_logit
-
-
-
-
-
-
 
